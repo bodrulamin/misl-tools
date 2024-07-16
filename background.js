@@ -15,6 +15,12 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
         id: "pasteNoteId",
         title: "Past Note Id",
+        contexts: ["link"],
+        visible: true
+    });
+    chrome.contextMenus.create({
+        id: "enableRichText",
+        title: "Enable Rich Text",
         contexts: ["all"],
         visible: true
     });
@@ -26,8 +32,15 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         chrome.contextMenus.update("gotoLastNote", {
             visible: true
         });
+
+        chrome.contextMenus.update("pasteNoteId", {
+            visible: true
+        });
     } else {
         chrome.contextMenus.update("gotoLastNote", {
+            visible: false
+        });
+        chrome.contextMenus.update("pasteNoteId", {
             visible: false
         });
     }
@@ -64,19 +77,30 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
         // chrome.tabs.create({ url: url });
         chrome.tabs.update(tab.id, {url: url});
     }
+
     if (info.menuItemId === "pasteNoteId") {
+        const linkURL = info.linkUrl;
         chrome.scripting.executeScript({
             target: {tabId: tab.id},
-            function: pasteText,
+            func: pasteText,
+            args: [linkURL]
         });
     }
+
 });
 
-// function pasteText() {
-//     navigator.clipboard.readText().then((clipText) => {
-//         document.activeElement.value = clipText;
-//     });
-// }
+function pasteText(link) {
+    const textareas = document.getElementsByName('bugnote_text');
+    if (textareas.length > 0) {
+        let noteId = '';
+        const regex = /#c(\d+)$/;
+        const match = link.match(regex);
+        if (match && match[1]) {
+            noteId = '~' + match[1];
+        }
+        textareas[0].value += noteId;
+    }
+}
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.type === 'textSelection') {
@@ -96,4 +120,38 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             }
         }
     }
+
+
+    if (message.type === 'oncontextmenu') {
+        const url = message.data;
+        if (url.includes('/mantis/view.php?id=')) {
+            chrome.contextMenus.update("pasteNoteId", {
+                visible: true
+            });
+        } else {
+            chrome.contextMenus.update("pasteNoteId", {
+                visible: false
+            });
+        }
+
+
+    }
+
+
+});
+
+chrome.action.onClicked.addListener((tab) => {
+    chrome.scripting.executeScript({
+        target: {tabId: tab.id},
+        function: () => {
+            chrome.runtime.sendMessage({action: "makeRichTextEditor"});
+        }
+    });
+});
+
+chrome.action.onClicked.addListener((tab) => {
+    chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        files: ['content.js']
+    });
 });

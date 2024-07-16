@@ -1,21 +1,21 @@
 {
   "manifest_version": 3,
-  "name": "MISL Shortcut",
+  "name": "MISL Tools",
   "version": "1.0",
-  "description": "A Chrome extension for MISL Shortcuts.",
+  "description": "A Chrome extension for MISL Tools and Shortcuts.",
   "permissions": [
     "contextMenus",
     "activeTab",
     "scripting",
     "tabs"
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
     "128": "icon.png"
-  },
-  "background": {
-    "service_worker": "background.js"
   },
   "action": {
     "default_popup": "popup.html",
@@ -27,12 +27,14 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "content.js"
-      ]
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["tinymce/*","initTinymce.js"],
+      "matches": ["<all_urls>"]
     }
   ]
 }
