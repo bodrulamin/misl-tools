@@ -28,7 +28,7 @@ chrome.runtime.onInstalled.addListener(() => {
         id: "enableRichText",
         title: "Enable Rich Text",
         contexts: ["all"],
-        visible: true
+        visible: false
     });
 });
 
@@ -39,7 +39,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             visible: true
         });
         chrome.contextMenus.update("gotoFirstNote", {
-            visible: false
+            visible: true
         });
         chrome.contextMenus.update("pasteNoteId", {
             visible: true
