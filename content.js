@@ -5,6 +5,10 @@ function detectTextSelection() {
             type: 'textSelection',
             data: selectedText
         });
+        chrome.runtime.sendMessage({
+            type: 'test',
+            data: selectedText
+        });
     }
 }
 
@@ -26,14 +30,14 @@ script.onload = () => {
 };
 (document.head || document.documentElement).appendChild(script);
 
-setTimeout(()=>{
+setTimeout(() => {
     const script2 = document.createElement('script');
     script2.type = "text/javascript"
     script2.src = chrome.runtime.getURL('initTinymce.js');
     script2.onload = () => {
     };
     (document.head || document.documentElement).appendChild(script2);
-},100)
 
+}, 100)
 
 

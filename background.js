@@ -7,14 +7,20 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 
     chrome.contextMenus.create({
+        id: "gotoFirstNote",
+        title: "First Note",
+        contexts: ["all"],
+        visible: false
+    });
+    chrome.contextMenus.create({
         id: "gotoLastNote",
-        title: "Go to LastNote",
+        title: "Last Note",
         contexts: ["all"],
         visible: false
     });
     chrome.contextMenus.create({
         id: "pasteNoteId",
-        title: "Past Note Id",
+        title: "Paste Note Id",
         contexts: ["link"],
         visible: true
     });
@@ -32,12 +38,18 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         chrome.contextMenus.update("gotoLastNote", {
             visible: true
         });
-
+        chrome.contextMenus.update("gotoFirstNote", {
+            visible: false
+        });
         chrome.contextMenus.update("pasteNoteId", {
             visible: true
         });
+
     } else {
         chrome.contextMenus.update("gotoLastNote", {
+            visible: false
+        });
+        chrome.contextMenus.update("gotoFirstNote", {
             visible: false
         });
         chrome.contextMenus.update("pasteNoteId", {
@@ -49,15 +61,24 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 });
 chrome.tabs.onActivated.addListener(activeInfo => {
     chrome.tabs.get(activeInfo.tabId, tab => {
+
         if (tab.url.includes('/mantis/view.php?id=')) {
+            chrome.contextMenus.update("gotoFirstNote", {
+                visible: true
+            });
             chrome.contextMenus.update("gotoLastNote", {
                 visible: true
             });
         } else {
+            chrome.contextMenus.update("gotoFirstNote", {
+                visible: false
+            });
             chrome.contextMenus.update("gotoLastNote", {
                 visible: false
             });
         }
+
+
     });
 });
 
@@ -66,22 +87,33 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
         const mitsNumber = info.selectionText.match(/\d+/)[0];
         const url = `http://192.168.1.126:1234/mantis/view.php?id=${mitsNumber}`;
-        chrome.tabs.create({url: url});
+        chrome.tabs.create({ url: url });
     }
 
+    if (info.menuItemId === "gotoFirstNote") {
+        chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            func: navigateToFirstNote,
+            args: ['']
+        });
+    }
     if (info.menuItemId === "gotoLastNote") {
         const urlObj = new URL(tab.url);
         const id = urlObj.searchParams.get('id');
         const selectedText = encodeURIComponent(info.selectionText);
         const url = `http://192.168.1.126:1234/mantis/view.php?id=${id}&#addbugnote`;
-        // chrome.tabs.create({ url: url });
-        chrome.tabs.update(tab.id, {url: url});
+
+        chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            func: navigateToLastNote,
+            args: ['']
+        });
     }
 
     if (info.menuItemId === "pasteNoteId") {
         const linkURL = info.linkUrl;
         chrome.scripting.executeScript({
-            target: {tabId: tab.id},
+            target: { tabId: tab.id },
             func: pasteText,
             args: [linkURL]
         });
@@ -89,17 +121,34 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
 });
 
-function pasteText(link) {
-    const textareas = document.getElementsByName('bugnote_text');
-    if (textareas.length > 0) {
-        let noteId = '';
-        const regex = /#c(\d+)$/;
-        const match = link.match(regex);
-        if (match && match[1]) {
-            noteId = '~' + match[1];
-        }
-        textareas[0].value += noteId;
+
+function navigateToFirstNote(link) {
+    let element = document.querySelectorAll('.bugnote')[0]
+    if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+}
+function navigateToLastNote(link) {
+    let element = document.querySelectorAll('.bugnote')[document.querySelectorAll('.bugnote').length - 2]
+    if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+}
+function pasteText(link) {
+
+    let noteId = '';
+    const regex = /#c(\d+)$/;
+    const match = link.match(regex);
+    if (match && match[1]) {
+        noteId = '~' + match[1];
+    }
+
+    let iframe = document.getElementById('mytextarea_ifr');
+    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+    let editorBody = iframeDocument.getElementById('tinymce');
+    editorBody.innerHTML += noteId
+
 }
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
@@ -142,9 +191,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 chrome.action.onClicked.addListener((tab) => {
     chrome.scripting.executeScript({
-        target: {tabId: tab.id},
+        target: { tabId: tab.id },
         function: () => {
-            chrome.runtime.sendMessage({action: "makeRichTextEditor"});
+            chrome.runtime.sendMessage({ action: "makeRichTextEditor" });
         }
     });
 });
