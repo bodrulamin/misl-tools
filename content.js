@@ -30,7 +30,8 @@ script.onload = () => {
 };
 (document.head || document.documentElement).appendChild(script);
 
-setTimeout(() => {
+if(window.location.href.includes('/mantis/view.php?id=') || window.location.href.includes('/mantis/bugnote_edit_page.php?bugnote_id')){
+   setTimeout(() => {
     const script2 = document.createElement('script');
     script2.type = "text/javascript"
     script2.src = chrome.runtime.getURL('initTinymce.js');
@@ -38,6 +39,8 @@ setTimeout(() => {
     };
     (document.head || document.documentElement).appendChild(script2);
 
-}, 100)
+}, 100) 
+}
+
 
 
