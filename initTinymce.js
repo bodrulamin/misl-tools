@@ -2,16 +2,21 @@ const textarea = document.querySelector('textarea[name="bugnote_text"]');
 textarea.id = 'mytextarea';
 tinymce.init({
   promotion: false,
+  // newline_behavior: 'linebreak',
+  remove_linebreaks : false,
+  apply_source_formatting : false,
   license_key: 'gpl',
   selector: '#mytextarea',
   plugins: [
     'code', 'advlist', 'autolink',
     'lists', 'link', 'charmap', 'preview', 'searchreplace', 'fullscreen', 'insertdatetime', 'wordcount'
   ],
-  menubar: true,
+  menubar: false,
   toolbar: 'code undo redo blocks | link bold italic underline | ' +
     'bullist numlist checklist pastetext searchreplace fullscreen',
   paste_as_text: true,
+  entity_encoding: 'raw',
+  // valid_elements:'li, ul, ol, br, pre, i, b, u, em,',
   branding: false,
   statusbar: true,
   elementpath: false,
@@ -21,6 +26,14 @@ tinymce.init({
         e.preventDefault(); // Prevent default paragraph creation
         // editor.insertContent('<br>'); // Insert a line break with <br> tag
         tinyMCE.execCommand('mceInsertContent',false, "<br/> ");
+
+        
+          // Remove all single line breaks
+          let result = editor.getContent().replace(/\n(?!\n)/g, '');
+          // Remove the first line break from two or more consecutive line breaks
+          result = result.replace(/\n{2,}/g, match => match.slice(1));
+          editor.setContent(content)
+    
       }
     });
   }
