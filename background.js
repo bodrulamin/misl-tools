@@ -155,11 +155,11 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.type === 'textSelection') {
         var selectedText = message.data;
         if (selectedText) {
-            const matchArray = selectedText.match(/(00)?\d{5}/g);
+            const matchArray = selectedText.match(/MITS_(\d+)/g);
             const firstMatch = matchArray && matchArray.length ? matchArray[0] : 0;
             if (firstMatch) {
                 chrome.contextMenus.update("gotoSelectedMITS", {
-                    title: "Go to MITS " + firstMatch,
+                    title: "Go to " + firstMatch,
                     visible: true
                 });
             } else {
@@ -168,6 +168,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 });
             }
         }
+
     }
 
 

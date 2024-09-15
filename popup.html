@@ -1,16 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <link href="quill.snow.css" rel="stylesheet">
-  <style>
-    #editor-container {
-      height: 200px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle Button</title>
+    <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-<div id="editor-container">hello</div>
-<script src="quill.min.js"></script>
-<script src="popup.js"></script>
+    <div class="toggle-container">
+        <label for="quickMenutoggle" class="toggle-text">Enable Quick Menu</label>
+        <div class="toggle-button">
+            <input type="checkbox" id="quickMenutoggle" class="toggle-checkbox">
+            <label for="quickMenutoggle" class="toggle-label">
+                <span class="toggle-inner"></span>
+                <span class="toggle-switch"></span>
+            </label>
+        </div>
+    </div>
+    <script src="popup.js"></script>
 </body>
 </html>
