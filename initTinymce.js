@@ -65,34 +65,28 @@ setTimeout(() => {
 
 
 
-const skickyDiv = document.createElement('div');
-skickyDiv.id = 'quickMenu';
-skickyDiv.style.position = 'fixed';
-skickyDiv.style.right = '10px';
-skickyDiv.style.top = '50%';
-skickyDiv.style.transform = 'translateY(-50%)';
-skickyDiv.style.padding = '10px';
-skickyDiv.style.backgroundColor = '#f1f1f1';  // Light background for contrast
-skickyDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';  // Adds a subtle shadow
-skickyDiv.style.borderRadius = '10px';  // Rounded corners
-skickyDiv.style.zIndex = '1000';
-skickyDiv.style.opacity = '0.5';  // 50% opacity for the div
 
 /* Flexbox to align buttons vertically */
-const quickMenuStatus = localStorage.getItem('quickMenu');
-console.log(quickMenuStatus);
-if (quickMenuStatus === false) {
-  skickyDiv.style.display = 'none';
 
-} else {
+  const skickyDiv = document.createElement('div');
   skickyDiv.style.display = 'flex';
   skickyDiv.style.flexDirection = 'column';
-}
+  skickyDiv.id = 'quickMenu';
+  skickyDiv.style.position = 'fixed';
+  skickyDiv.style.right = '10px';
+  skickyDiv.style.top = '50%';
+  skickyDiv.style.transform = 'translateY(-50%)';
+  skickyDiv.style.padding = '10px';
+  skickyDiv.style.backgroundColor = '#f1f1f1';  // Light background for contrast
+  skickyDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';  // Adds a subtle shadow
+  skickyDiv.style.borderRadius = '10px';  // Rounded corners
+  skickyDiv.style.zIndex = '1000';
+  skickyDiv.style.opacity = '0.5';  // 50% opacity for the div
+  skickyDiv.style.gap = '10px';  // Adds spacing between the buttons
 
-skickyDiv.style.gap = '10px';  // Adds spacing between the buttons
 
-// Button styles
-const buttonStyle = `
+  // Button styles
+  const buttonStyle = `
   padding: 8px 8px;
   background-color: #007bff;
   color: white;
@@ -109,105 +103,113 @@ const buttonStyle = `
   opacity: 0.5;  // 50% opacity for the buttons
 `;
 
-// First button (arrow up)
-const firstNote = document.createElement('button');
-firstNote.innerHTML = '↑';  // Unicode arrow up symbol
-firstNote.style.cssText = buttonStyle;
-firstNote.onclick = function () {
-  let element = document.querySelectorAll('.bugnote')[0]
-  if (element) {
-    element.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-};
-skickyDiv.appendChild(firstNote);
+  // First button (arrow up)
+  const firstNote = document.createElement('button');
+  firstNote.innerHTML = '↑';  // Unicode arrow up symbol
+  firstNote.style.cssText = buttonStyle;
+  firstNote.onclick = function () {
+    let element = document.querySelectorAll('.bugnote')[0]
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+  skickyDiv.appendChild(firstNote);
 
-// Last button (arrow down)
-const lastNote = document.createElement('button');
-lastNote.innerHTML = '↓';  // Unicode arrow down symbol
-lastNote.style.cssText = buttonStyle;
-lastNote.onclick = function () {
-  let element = document.querySelectorAll('.bugnote')[document.querySelectorAll('.bugnote').length - 2]
-  if (element) {
-    element.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-};
-skickyDiv.appendChild(lastNote);
+  // Last button (arrow down)
+  const lastNote = document.createElement('button');
+  lastNote.innerHTML = '↓';  // Unicode arrow down symbol
+  lastNote.style.cssText = buttonStyle;
+  lastNote.onclick = function () {
+    let element = document.querySelectorAll('.bugnote')[document.querySelectorAll('.bugnote').length - 2]
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+  skickyDiv.appendChild(lastNote);
 
-document.body.appendChild(skickyDiv);
+  document.body.appendChild(skickyDiv);
 
-// Apply hover effect to the entire div and its children
-skickyDiv.onmouseover = function () {
-  skickyDiv.style.opacity = '1';  // Make div fully opaque on hover
-  firstNote.style.opacity = '1';  // Make buttons fully opaque on hover
-  lastNote.style.opacity = '1';
-};
+  // Apply hover effect to the entire div and its children
+  skickyDiv.onmouseover = function () {
+    skickyDiv.style.opacity = '1';  // Make div fully opaque on hover
+    firstNote.style.opacity = '1';  // Make buttons fully opaque on hover
+    lastNote.style.opacity = '1';
+  };
 
-skickyDiv.onmouseout = function () {
-  skickyDiv.style.opacity = '0.5';  // Revert div opacity to 50% when mouse leaves
-  firstNote.style.opacity = '0.5';  // Revert buttons opacity to 50%
-  lastNote.style.opacity = '0.5';
-};
+  skickyDiv.onmouseout = function () {
+    skickyDiv.style.opacity = '0.5';  // Revert div opacity to 50% when mouse leaves
+    firstNote.style.opacity = '0.5';  // Revert buttons opacity to 50%
+    lastNote.style.opacity = '0.5';
+  };
 
-const bugnoteElements = document.querySelectorAll('.bugnote-public');
+  const bugnoteElements = document.querySelectorAll('.bugnote-public');
 
-bugnoteElements.forEach(element => {
-  const firstLink = element.querySelector('a');
-  if (firstLink) {
-    // Create the popup button
-    const popupButton = document.createElement('button');
-    popupButton.textContent = 'Paste Note Id';
-    popupButton.className = 'popup-button';
-    popupButton.style.display = 'none'; // Initially hidden
-    document.body.appendChild(popupButton);
+  bugnoteElements.forEach(element => {
+    const firstLink = element.querySelector('a');
+    if (firstLink) {
+      // Create the popup button
+      const popupButton = document.createElement('button');
+      popupButton.textContent = 'Paste Note Id';
+      popupButton.className = 'popup-button';
+      popupButton.style.display = 'none'; // Initially hidden
+      document.body.appendChild(popupButton);
 
-    // Show the button on hover over the link
-    firstLink.addEventListener('mouseover', () => {
-      const linkRect = firstLink.getBoundingClientRect();
-      popupButton.style.position = 'absolute';
-      popupButton.style.left = `${linkRect.left}px`;
-      popupButton.style.top = `${linkRect.bottom + window.scrollY}px`;
-      popupButton.style.display = 'block';
-    });
+      // Show the button on hover over the link
+      firstLink.addEventListener('mouseover', () => {
+        const linkRect = firstLink.getBoundingClientRect();
+        popupButton.style.position = 'absolute';
+        popupButton.style.left = `${linkRect.left}px`;
+        popupButton.style.top = `${linkRect.bottom + window.scrollY}px`;
+        popupButton.style.display = 'block';
+      });
 
-    // Hide the button when the mouse leaves the link
-    firstLink.addEventListener('mouseout', (event) => {
-      // Delay hiding to allow time for mouse to move to the button
-      setTimeout(() => {
-        if (!popupButton.matches(':hover') && !firstLink.matches(':hover')) {
-          popupButton.style.display = 'none';
+      // Hide the button when the mouse leaves the link
+      firstLink.addEventListener('mouseout', (event) => {
+        // Delay hiding to allow time for mouse to move to the button
+        setTimeout(() => {
+          if (!popupButton.matches(':hover') && !firstLink.matches(':hover')) {
+            popupButton.style.display = 'none';
+          }
+        }, 100);
+      });
+
+      // Show the button on hover over the button itself
+      popupButton.addEventListener('mouseover', () => {
+        popupButton.style.display = 'block';
+      });
+
+      // Hide the button when the mouse leaves the button
+      popupButton.addEventListener('mouseout', (event) => {
+        setTimeout(() => {
+          if (!popupButton.matches(':hover') && !firstLink.matches(':hover')) {
+            popupButton.style.display = 'none';
+          }
+        }, 100);
+      });
+
+      // Handle button click
+      popupButton.addEventListener('click', () => {
+        let noteId = '';
+        const regex = /#c(\d+)$/;
+        const match = firstLink.href.match(regex);
+        if (match && match[1]) {
+          noteId = '~' + match[1];
         }
-      }, 100);
-    });
 
-    // Show the button on hover over the button itself
-    popupButton.addEventListener('mouseover', () => {
-      popupButton.style.display = 'block';
-    });
+        let iframe = document.getElementById('mytextarea_ifr');
+        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
-    // Hide the button when the mouse leaves the button
-    popupButton.addEventListener('mouseout', (event) => {
-      setTimeout(() => {
-        if (!popupButton.matches(':hover') && !firstLink.matches(':hover')) {
-          popupButton.style.display = 'none';
-        }
-      }, 100);
-    });
+        let editorBody = iframeDocument.getElementById('tinymce');
+        editorBody.innerHTML += noteId
+      });
+    }
+  });
 
-    // Handle button click
-    popupButton.addEventListener('click', () => {
-      let noteId = '';
-      const regex = /#c(\d+)$/;
-      const match = firstLink.href.match(regex);
-      if (match && match[1]) {
-        noteId = '~' + match[1];
-      }
+  const quickMenuStatus = localStorage.getItem('quickMenu');
+  if (quickMenuStatus === 'show') {
+  skickyDiv.style.display = 'flex'
+  
+  } else {
+    skickyDiv.style.display = 'none'
 
-      let iframe = document.getElementById('mytextarea_ifr');
-      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-
-      let editorBody = iframeDocument.getElementById('tinymce');
-      editorBody.innerHTML += noteId
-    });
   }
-});
-

@@ -49,7 +49,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const element = document.getElementById(request.elementId);
         if (element) {
             element.style.display =  'none';
-            localStorage.setItem("quickMenu", false);
+            localStorage.setItem("quickMenu", 'hide');
 
         }
     }
@@ -58,7 +58,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const element = document.getElementById(request.elementId);
         if (element) {
             element.style.display = 'flex' ;
-            localStorage.setItem("quickMenu", true);
+            localStorage.setItem("quickMenu", 'show');
 
         }
     }
