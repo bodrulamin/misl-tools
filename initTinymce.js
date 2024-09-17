@@ -12,6 +12,7 @@ var button = document.createElement('button');
 button.textContent = '[ ]';
 button.type = 'button';
 button.style.position = 'absolute';
+button.style.cursor = 'pointer';
 button.style.top = '5px'; // Adjust as needed
 button.style.right = '5px'; // Adjust as needed
 
@@ -144,9 +145,8 @@ window.onclick = function (event) {
 submitButton.onclick = function () {
   var editor = tinymce.get('mytextarea');
 
-  var editorContent = editor.getContent();
-  console.log(editorContent);
-  let result = editorContent.replace(/\n(?!\n)/g, '');
+  var result = editor.getContent();
+  result = result.replace(/\n(?!\n)/g, '');
   result = result.replace('<p>','').replace('</p>','');
   textarea.value = result;
   modal.style.display = 'none';
@@ -371,11 +371,7 @@ bugnoteElements.forEach(element => {
         noteId = '~' + match[1];
       }
 
-      let iframe = document.getElementById('mytextarea_ifr');
-      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-
-      let editorBody = iframeDocument.getElementById('tinymce');
-      editorBody.innerHTML += noteId
+      textarea.value = textarea.value += ' ' + noteId + ' '
     });
   }
 });
