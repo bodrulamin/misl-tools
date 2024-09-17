@@ -3,10 +3,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const quickMenutoggle = document.getElementById('quickMenutoggle');
     chrome.storage.local.get('toggleState', function (data) {
         console.log(data.toggleState);
-        if(data.toggleState === undefined){
+        if (data.toggleState === true || data.toggleState === false) {
+
+        } else {
             data.toggleState = true;
         }
-        quickMenutoggle.checked = data.toggleState || false;
+
+        console.log(data.toggleState);
+        quickMenutoggle.checked = data.toggleState
+
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             chrome.tabs.sendMessage(tabs[0].id, {
                 action: quickMenutoggle.checked ? 'show' : 'hide',

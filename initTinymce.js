@@ -378,9 +378,10 @@ bugnoteElements.forEach(element => {
 });
 
 const quickMenuStatus = localStorage.getItem('quickMenu');
-if (quickMenuStatus === 'show') {
-  skickyDiv.style.display = 'flex'
+console.log(quickMenuStatus);
 
+if (quickMenuStatus === 'show' || quickMenuStatus === undefined || quickMenuStatus === null ) {
+  skickyDiv.style.display = 'flex'
 } else {
   skickyDiv.style.display = 'none'
 
