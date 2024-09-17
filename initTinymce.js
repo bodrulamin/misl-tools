@@ -168,12 +168,13 @@ tinymce.init({
   license_key: 'gpl',
   selector: '#mytextarea',
   plugins: [
-    'code', 'advlist', 'autolink',
+    'code', 'autolink',
     'lists', 'link', 'charmap', 'preview', 'searchreplace', 'fullscreen', 'insertdatetime', 'wordcount'
   ],
   menubar: false,
   toolbar: 'code undo redo | bold italic underline | ' +
     'bullist numlist checklist pastetext searchreplace fullscreen',
+
   paste_as_text: true,
   entity_encoding: 'raw',
   // valid_elements:'p, li, ul, ol, br, pre, i, b, u, em, strong',
