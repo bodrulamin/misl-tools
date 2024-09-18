@@ -1,4 +1,7 @@
-// popup.js
+var version = 9;
+
+localStorage.setItem("version",version);
+
 document.addEventListener('DOMContentLoaded', function () {
     const quickMenutoggle = document.getElementById('quickMenutoggle');
     chrome.storage.local.get('toggleState', function (data) {
@@ -32,6 +35,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    var btn = document.getElementById('versionInfoBtn');
+    btn.onclick = fetchVersionInfo;
+
+});
+
+function fetchVersionInfo() {
     const url = 'https://raw.githubusercontent.com/bodrulamin/misl-tools/master/version.json'; // Replace with your API endpoint
 
     fetch(url)
@@ -40,14 +49,17 @@ document.addEventListener('DOMContentLoaded', function () {
           throw new Error('Network response was not ok ' + response.statusText);
         }
         
-        return response.text(); // Parse the JSON from the response
+        return response.json(); // Parse the JSON from the response
       })
       .then(data => {
-        console.log(data); 
+        console.log(data);
+        if(+localStorage.getItem('version') < data.version ) {
+            var updateAlert = document.getElementById('updateAlert');
+            updateAlert.classList.remove('d-none');
+            updateAlert.classList.add('d-block');
+        }
       })
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
       });
-
-
-});
+}

@@ -147,7 +147,7 @@ submitButton.onclick = function () {
 
   var result = editor.getContent();
   result = result.replace(/\n(?!\n)/g, '');
-  result = result.replace('<p>','').replace('</p>','');
+  result = result.replace('<p>', '').replace('</p>', '');
   textarea.value = result;
   modal.style.display = 'none';
 }
@@ -280,10 +280,12 @@ const buttonStyle = `
 `;
 
 // First button (arrow up)
+var openBugIndex = 0;
 const firstNote = document.createElement('button');
 firstNote.innerHTML = '↑';  // Unicode arrow up symbol
 firstNote.style.cssText = buttonStyle;
 firstNote.onclick = function () {
+  openBugIndex = 0;
   let element = document.querySelectorAll('.bugnote')[0]
   if (element) {
     element.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -377,10 +379,36 @@ bugnoteElements.forEach(element => {
   }
 });
 
+const bnotes = document.querySelectorAll('.bugnote-note-public');
+
+var openBnotes = Array.from(bnotes).filter(element => element.innerHTML.trim() === 'open');
+
+var bcDiv = document.createElement('button');
+bcDiv.onclick = () => {
+if(openBnotes.length){
+  var scrollElement = openBnotes[openBugIndex].parentElement;
+  for (let index = 0; index < 4; index++) {
+    scrollElement = scrollElement.previousElementSibling;
+
+  }
+
+  scrollElement.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (openBugIndex + 1 < openBnotes.length) {
+    openBugIndex++;
+  } else {
+    openBugIndex = 0;
+  }
+}
+ 
+
+};
+bcDiv.innerHTML = openBnotes.length;
+skickyDiv.appendChild(bcDiv);
+
 const quickMenuStatus = localStorage.getItem('quickMenu');
 console.log(quickMenuStatus);
 
-if (quickMenuStatus === 'show' || quickMenuStatus === undefined || quickMenuStatus === null ) {
+if (quickMenuStatus === 'show' || quickMenuStatus === undefined || quickMenuStatus === null) {
   skickyDiv.style.display = 'flex'
 } else {
   skickyDiv.style.display = 'none'
