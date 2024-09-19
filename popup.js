@@ -1,4 +1,4 @@
-var version = 9;
+var version = 10;
 
 localStorage.setItem("version", version);
 
@@ -35,17 +35,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    var btn = document.getElementById('versionInfoBtn');
-    btn.onclick = fetchVersionInfo;
+    fetchVersionInfo();
 
     var gotoMITSBtn = document.getElementById('gotoMITSBtn');
     var mitsNumberInput = document.getElementById('mitsNumberInput');
 
-    gotoMITSBtn.onclick = ()=>{
+    mitsNumberInput.onkeydown = function(event) {
+        if (event.key === 'Enter' || event.keyCode === 13) {
+            // Enter key is pressed, execute your logic here
+            console.log('Enter key pressed!');
+            gotoToMits();
+            // You can also prevent the default action if needed
+            event.preventDefault();
+        }
+    };
+
+    gotoMITSBtn.onclick = gotoToMits;
+    function gotoToMits() {
         const mitsNumber = mitsNumberInput.value;
         const url = `http://192.168.1.126:1234/mantis/view.php?id=${mitsNumber}`;
         chrome.tabs.create({ url: url });
-    };
+    }
   
 });
 
