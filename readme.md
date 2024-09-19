@@ -1,18 +1,18 @@
 
-##Features:
+## Features:
 
-1. Rich Text Editor in All text Area
-2. Quick menu to navigate to first note and last note
-3. Navigate to first note and last note from context menu
-4. Open bugs count and navigate to next open bug.
-5. Paste note id button hovering note id
-6. Go to MITS by right clicking on selected Text contains MITS_xxxxx (from gitlab)
-7. Go to MITS number with extension popup
+- Rich Text Editor: Available in all text areas.
+- Quick Navigation: Move easily to the first and last note with a quick menu.
+- Context Menu Navigation: Jump to the first or last note directly from the context menu.
+- Open Bugs Count: View the current number of open bugs and quickly navigate to the next one.
+- Paste Note ID Button: Hover over note IDs to quickly paste them.
+- Go to MITS: Right-click on selected text containing MITS_xxxxx (from GitLab) to directly navigate to the corresponding MITS entry.
+- MITS Number Search: Use the extension's popup to search for specific MITS numbers.
 
 
 
-##folder structure
-
+## folder structure
+```
 my-extension/
 │
 ├── manifest.json          # Required manifest file for extension configuration
@@ -29,10 +29,10 @@ my-extension/
 │   ├── icon48.png         # Icon for the extension (48x48)
 │   └── icon128.png        # Icon for the extension (128x128)
 └── assets/                # Folder for other assets like images, fonts, etc.
+```
 
 
-
-##How to install
+## How to install
 
 1. Chrome webstore
 2. Packed extension file (deprecated)
