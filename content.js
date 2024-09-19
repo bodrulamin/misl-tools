@@ -22,7 +22,12 @@ function onContextMenuOpen() {
 document.addEventListener('mouseup', detectTextSelection);
 document.addEventListener('oncontextmenu', onContextMenuOpen);
 
-if (window.location.href.includes('/mantis/view.php?id=') || window.location.href.includes('/mantis/bugnote_edit_page.php?bugnote_id') || window.location.href.includes('mantis/bug_update_page.php') || window.location.href.includes('mantis/bug_report_page.php')) {
+if (
+    window.location.href.includes('/mantis/view.php?id=') || 
+    window.location.href.includes('bugnote_edit_page.php') || 
+    window.location.href.includes('bug_update_page.php') || 
+    window.location.href.includes('support.ababilng.com/view.php?id') || 
+    window.location.href.includes('bug_report_page.php')) {
 
     const script = document.createElement('script');
     script.type = "text/javascript"
