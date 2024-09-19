@@ -1,3 +1,5 @@
+var noteTextArea = document.querySelector('textarea[name="bugnote_text"]');
+
 var currentTextArea;
 
 // Create the modal
@@ -376,7 +378,7 @@ bugnoteElements.forEach(element => {
         noteId = '~' + match[1];
       }
 
-      textarea.value = textarea.value += ' ' + noteId + ' '
+      noteTextArea.value = noteTextArea.value += ' ' + noteId + ' '
     });
   }
 });
