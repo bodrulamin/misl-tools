@@ -147,7 +147,9 @@ tinymce.init({
   entity_encoding: 'raw',
   // valid_elements:'p, li, ul, ol, br, pre, i, b, u, em, strong',
   formats: {
-    underline: { inline: 'u' }
+    underline: { inline: 'u' },
+    bold: { inline: 'strong' },
+    italic: { inline: 'em' }   
   },
   branding: false,
   statusbar: true,
