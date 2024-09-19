@@ -22,7 +22,7 @@ function onContextMenuOpen() {
 document.addEventListener('mouseup', detectTextSelection);
 document.addEventListener('oncontextmenu', onContextMenuOpen);
 
-if (window.location.href.includes('/mantis/view.php?id=') || window.location.href.includes('/mantis/bugnote_edit_page.php?bugnote_id')) {
+if (window.location.href.includes('/mantis/view.php?id=') || window.location.href.includes('/mantis/bugnote_edit_page.php?bugnote_id') || window.location.href.includes('mantis/bug_update_page.php') || window.location.href.includes('mantis/bug_report_page.php')) {
 
     const script = document.createElement('script');
     script.type = "text/javascript"
@@ -48,7 +48,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'hide') {
         const element = document.getElementById(request.elementId);
         if (element) {
-            element.style.display =  'none';
+            element.style.display = 'none';
             localStorage.setItem("quickMenu", 'hide');
 
         }
@@ -57,7 +57,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'show') {
         const element = document.getElementById(request.elementId);
         if (element) {
-            element.style.display = 'flex' ;
+            element.style.display = 'flex';
             localStorage.setItem("quickMenu", 'show');
 
         }

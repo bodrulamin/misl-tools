@@ -1,29 +1,4 @@
-const textarea = document.querySelector('textarea[name="bugnote_text"]');
-textarea.id = 'mytextareax';
-
-
-// Create a new div element for the wrapper
-var wrapperDiv = document.createElement('div');
-wrapperDiv.style.position = 'relative';
-wrapperDiv.style.display = 'inline-block'; // Ensure it fits around the textarea
-
-// Create a new button element
-var button = document.createElement('button');
-button.textContent = '[ ]';
-button.type = 'button';
-button.style.position = 'absolute';
-button.style.cursor = 'pointer';
-button.style.top = '5px'; // Adjust as needed
-button.style.right = '5px'; // Adjust as needed
-
-// Insert the wrapper div before the textarea
-textarea.parentNode.insertBefore(wrapperDiv, textarea);
-
-// Move the textarea inside the new div
-wrapperDiv.appendChild(textarea);
-
-// Add the button to the div
-wrapperDiv.appendChild(button);
+var currentTextArea;
 
 // Create the modal
 var modal = document.createElement('div');
@@ -121,13 +96,7 @@ modal.appendChild(modalContent);
 // Append the modal to the body
 document.body.appendChild(modal);
 
-// Event listener for the button to show the modal
-button.onclick = function () {
-  modal.style.display = 'block';
-  var editor = tinymce.get('mytextarea');
 
-  var editorContent = editor.setContent(textarea.value);
-}
 
 // Event listener for the close button to hide the modal
 document.getElementById('closeModal').onclick = function () {
@@ -144,11 +113,10 @@ window.onclick = function (event) {
 // Event listener for the submit button
 submitButton.onclick = function () {
   var editor = tinymce.get('mytextarea');
-
   var result = editor.getContent();
   result = result.replace(/\n(?!\n)/g, '');
   result = result.replace('<p>', '').replace('</p>', '');
-  textarea.value = result;
+  currentTextArea.value = result;
   modal.style.display = 'none';
 }
 
@@ -239,8 +207,40 @@ setTimeout(() => {
   }
 }, 1000);
 
+const textareas = document.querySelectorAll('textarea');
+textareas.forEach((textarea) => {
+  if (textarea.id !== 'mytextarea') {
+    var wrapperDiv = document.createElement('div');
+    wrapperDiv.style.position = 'relative';
+    wrapperDiv.style.display = 'inline-block'; // Ensure it fits around the textarea
+
+    var button = document.createElement('button');
+    button.textContent = '[ ]';
+    button.type = 'button';
+    button.style.position = 'absolute';
+    button.style.cursor = 'pointer';
+    button.style.top = '5px'; // Adjust as needed
+    button.style.right = '5px'; // Adjust as needed
+
+    // Insert the wrapper div before the textarea
+    textarea.parentNode.insertBefore(wrapperDiv, textarea);
+
+    // Move the textarea inside the new div
+    wrapperDiv.appendChild(textarea);
+
+    // Add the button to the div
+    wrapperDiv.appendChild(button);
+    // Event listener for the button to show the modal
+    button.onclick = function () {
+      currentTextArea = textarea;
+      modal.style.display = 'block';
+      var editor = tinymce.get('mytextarea');
+      editor.setContent(textarea.value);
+    }
+  }
 
 
+});
 
 /* Flexbox to align buttons vertically */
 
@@ -385,21 +385,21 @@ var openBnotes = Array.from(bnotes).filter(element => element.innerHTML.trim() =
 
 var bcDiv = document.createElement('button');
 bcDiv.onclick = () => {
-if(openBnotes.length){
-  var scrollElement = openBnotes[openBugIndex].parentElement;
-  for (let index = 0; index < 4; index++) {
-    scrollElement = scrollElement.previousElementSibling;
+  if (openBnotes.length) {
+    var scrollElement = openBnotes[openBugIndex].parentElement;
+    for (let index = 0; index < 4; index++) {
+      scrollElement = scrollElement.previousElementSibling;
 
+    }
+
+    scrollElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (openBugIndex + 1 < openBnotes.length) {
+      openBugIndex++;
+    } else {
+      openBugIndex = 0;
+    }
   }
 
-  scrollElement.scrollIntoView({ behavior: "smooth", block: "start" });
-  if (openBugIndex + 1 < openBnotes.length) {
-    openBugIndex++;
-  } else {
-    openBugIndex = 0;
-  }
-}
- 
 
 };
 bcDiv.innerHTML = openBnotes.length;
