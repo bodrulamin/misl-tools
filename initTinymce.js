@@ -288,12 +288,21 @@ var openBugIndex = 0;
 const firstNote = document.createElement('button');
 firstNote.innerHTML = '↑';  // Unicode arrow up symbol
 firstNote.style.cssText = buttonStyle;
-firstNote.onclick = function () {
-  openBugIndex = 0;
-  let element = document.querySelectorAll('.bugnote')[0]
-  if (element) {
-    element.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+let clickCount = 0;
+firstNote.onclick = function (event) {
+  clickCount++;
+  setTimeout(function() {
+    if (clickCount === 1) {
+      openBugIndex = 0;
+      let element = document.querySelectorAll('.bugnote')[0]
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    } else if (clickCount === 2) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    clickCount = 0;
+  }, 300);
 };
 skickyDiv.appendChild(firstNote);
 

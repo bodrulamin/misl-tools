@@ -8,6 +8,8 @@
 - Paste Note ID Button: Hover over note IDs to quickly paste them.
 - Go to MITS: Right-click on selected text containing MITS_xxxxx (from GitLab) to directly navigate to the corresponding MITS entry.
 - MITS Number Search: Use the extension's popup to search for specific MITS numbers.
+- Double Click to Go to Top of the Page
+
 
 
 
