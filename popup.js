@@ -1,4 +1,4 @@
-var version = 10;
+var version = 11;
 
 localStorage.setItem("version", version);
 
