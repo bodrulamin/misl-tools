@@ -10,8 +10,13 @@
     "tabs",
     "storage"
   ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{73c17e2d-4749-49b4-8697-a34594a784c7}"
+    }
+  },
   "background": {
-    "service_worker": "background.js"
+    "scripts": ["background.js"]
   },
   "icons": {
     "16": "icon16.png",
