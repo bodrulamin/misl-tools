@@ -44,7 +44,7 @@ if (
         };
         (document.head || document.documentElement).appendChild(script2);
 
-    }, 100)
+    }, 1000)
 }
 
 

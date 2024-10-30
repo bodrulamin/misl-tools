@@ -1,3 +1,4 @@
+This is the firefox version of the famous [MISL Tools](https://chromewebstore.google.com/detail/misl-tools/epcalnjfdoicbkphoaabdjifgbjinjno) chrome extension by [Bodrul Amin](https://github.com/bodrulamin). The firefox version has not been reviewed as of 2024-10-29.
 
 ## Features:
 
@@ -36,7 +37,11 @@ my-extension/
 
 ## How to install
 
-1. Chrome webstore
-2. Packed extension file (deprecated)
-2. Manual Developer mode install
+Currently the only way to install the extension is to clone the repository, make a zip file out of the files in the repository and using the install from zip feature of firefox.
+
+1. Enter `about:addons` in the location bar
+2. Go to `Extensions`
+3. Click on the cog icon at the right of `Manage Your Extensions`
+4. Select `Install Add-on From File...`
+5. Select the zip file using the filepicker
 
