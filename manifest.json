@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "MISL Tools",
-  "version": "1.1",
-  "description": "A Chrome extension for MISL Tools and Shortcuts.",
+  "version": "1.1.1",
+  "description": "Firefox edition for MISL Tools extension for Google Chrome created by Bodrul Amin",
   "permissions": [
     "contextMenus",
     "activeTab",
@@ -16,7 +16,9 @@
     }
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
   "icons": {
     "16": "icon16.png",
@@ -33,22 +35,31 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["tinymce/*","initTinymce.js"],
-      "matches": ["<all_urls>"]
+      "resources": [
+        "tinymce/*",
+        "initTinymce.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ],
   "commands": {
-        "_execute_action": {
-            "suggested_key": {
-                "default": "Alt+Shift+M",
-                "mac": "MacCtrl+Command+M"
-            }
-        }
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+M",
+        "mac": "MacCtrl+Command+M"
+      }
     }
+  }
 }
