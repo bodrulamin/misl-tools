@@ -34,7 +34,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["tinymce/*","initTinymce.js"],
+      "resources": ["tinymce/*","scripts/*"],
       "matches": ["<all_urls>"]
     }
   ],
