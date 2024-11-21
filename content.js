@@ -10,7 +10,7 @@ function injectScriptLoader() {
     script.type = "text/javascript"
     script.id = 'extension-url';
     script.innerHTML= chrome.runtime.getURL('');
-    script.src = chrome.runtime.getURL('scripts/load.script.js');
+    script.src = chrome.runtime.getURL('resources/scripts/load.script.js');
     script.onload = () => {
     };
     (document.head || document.documentElement).appendChild(script);

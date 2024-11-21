@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
     gotoMITSBtn.onclick = gotoToMits;
     function gotoToMits() {
         const mitsNumber = mitsNumberInput.value;
+        if (!mitsNumber) return;
         const url = `http://192.168.1.126:1234/mantis/view.php?id=${mitsNumber}`;
         chrome.tabs.create({ url: url });
     }

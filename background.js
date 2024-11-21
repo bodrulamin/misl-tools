@@ -154,8 +154,9 @@ function pasteText(link) {
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.type === 'textSelection') {
         var selectedText = message.data;
+        console.log(selectedText);
         if (selectedText) {
-            const matchArray = selectedText.match(/MITS_(\d+)/g);
+            const matchArray = selectedText.match(/MITS_(\d+)/gi);
             const firstMatch = matchArray && matchArray.length ? matchArray[0] : 0;
             if (firstMatch) {
                 chrome.contextMenus.update("gotoSelectedMITS", {
@@ -168,7 +169,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 });
             }
         }
-
     }
 
 

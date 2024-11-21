@@ -27,39 +27,42 @@ if (customFieldDayElements.length > 0) {
 
         });
 
-        const button = document.createElement('button');
-        button.type = 'button';
-        const icon = document.createElement('img');
-        icon.src = 'chrome-extension://fgjpkhjkjlhgjcpjekchflnhijlpogfo/scripts/calendar.png';
-        icon.alt = 'Button Icon';
-        button.appendChild(icon);
-        button.setAttribute("style", `
-            padding: 0.48em;
-            border: 1px solid #d4d4d4;
-            margin-left: 3px;
-            text-decoration: none;
-            text-shadow: none;
-            font: 12px/normal sans-serif;
-            color: #333;
-            outline: none;
-            background-color: #ececec;
-            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#ececec));
-            background-image: -moz-linear-gradient(#f4f4f4, #ececec);
-            background-image: -ms-linear-gradient(#f4f4f4, #ececec);
-            background-image: -o-linear-gradient(#f4f4f4, #ececec);
-            background-image: linear-gradient(#f4f4f4, #ececec);
-            -moz-background-clip: padding;  /* for Firefox 3.6 */
-            background-clip: padding-box;
-            border-radius: 0.2em;
-            zoom: 1;  /* IE hacks */
-            *display: inline;
+        const calendarIcon = document.createElement('img');
+        calendarIcon.src = extensionUrl + 'resources/icons/calendar.png';
+        calendarIcon.alt = 'Button Icon';
+        calendarIcon.width = '15';
+        calendarIcon.height = '15';
+        calendarIcon.setAttribute("style", `
+vertical-align: middle; 
+margin-left: 3px;
+margin-bottom: 2px;
+padding: 0.4em;
+border: 1px solid #d4d4d4;
+text-decoration: none;
+text-shadow: none;
+font:12px/normal sans-serif;
+color: #333;
+outline: none;
+background-color: #ececec;
+background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#ececec));
+background-image: -moz-linear-gradient(#f4f4f4, #ececec);
+background-image: -ms-linear-gradient(#f4f4f4, #ececec);
+background-image: -o-linear-gradient(#f4f4f4, #ececec);
+background-image: linear-gradient(#f4f4f4, #ececec);
+-moz-background-clip: padding; /* for Firefox 3.6 */
+background-clip: padding-box;
+border-radius: 0.2em;
+/* IE hacks */
+zoom: 1;
+*display: inline;
+
         `);
 
-        button.onclick = () => {
-           dateInput.showPicker();
+        calendarIcon.onclick = () => {
+            dateInput.showPicker();
         }
         element.parentNode.insertBefore(dateInput, element.nextSibling);
-        element.parentNode.insertBefore(button, element.nextSibling);
+        element.parentNode.insertBefore(calendarIcon, element.nextSibling);
 
     });
 } else {
