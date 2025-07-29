@@ -138,10 +138,10 @@ tinymce.init({
     selector: '#mytextarea',
     plugins: [
         'code', 'autolink',
-        'lists', 'link', 'charmap', 'preview', 'searchreplace', 'fullscreen', 'insertdatetime', 'wordcount'
+        'lists', 'link', 'charmap', 'preview', 'searchreplace', 'fullscreen', 'insertdatetime', 'wordcount', 'strikethrough'
     ],
     menubar: false,
-    toolbar: 'code undo redo | bold italic underline | ' +
+    toolbar: 'code undo redo | bold italic underline strikethrough | ' +
         'bullist numlist checklist pastetext searchreplace fullscreen',
 
     paste_as_text: true,
@@ -149,6 +149,7 @@ tinymce.init({
     
     formats: {
         underline: {inline: 'u'},
+        strikethrough: {inline: 'strike'},
         bold: {inline: 'strong'},
         italic: {inline: 'em'}
     },
