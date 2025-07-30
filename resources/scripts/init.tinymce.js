@@ -21,6 +21,7 @@ modalContent.style.backgroundColor = '#fefefe';
 modalContent.style.marginTop = '0px';
 modalContent.style.marginRight = 'auto';
 modalContent.style.marginLeft = 'auto';
+modalContent.style.borderRadius = '16px'; // Rounded corners
 
 
 modalContent.style.padding = '20px';
@@ -131,42 +132,42 @@ cancelButton.onclick = function () {
 
 tinymce.init({
     promotion: false,
-    
+
     remove_linebreaks: true,
     apply_source_formatting: false,
     license_key: 'gpl',
     selector: '#mytextarea',
     plugins: [
         'code', 'autolink',
-        'lists', 'link', 'charmap', 'preview', 'searchreplace', 'fullscreen', 'insertdatetime', 'wordcount', 'strikethrough'
+        'lists', 'link', 'charmap','preview', 'searchreplace', 'fullscreen', 'insertdatetime', 'wordcount', 'table'
     ],
     menubar: false,
-    toolbar: 'code undo redo | bold italic underline strikethrough | ' +
-        'bullist numlist checklist pastetext searchreplace fullscreen',
+    toolbar: 'code undo redo | bold italic underline strikethrough  |' +
+        'bullist numlist checklist table pastetext searchreplace fullscreen',
 
-    paste_as_text: true,
-    entity_encoding: 'raw',
-    
-    formats: {
-        underline: {inline: 'u'},
-        strikethrough: {inline: 'strike'},
-        bold: {inline: 'strong'},
-        italic: {inline: 'em'}
-    },
+    // paste_as_text: true,
+    // entity_encoding: 'raw',
+
+    // formats: {
+    //     underline: {inline: 'u'},
+    //     strikethrough: {inline: 'strike'},
+    //     bold: {inline: 'strong'},
+    //     italic: {inline: 'em'}
+    // },
     branding: false,
     statusbar: true,
     elementpath: false,
-    setup: function (editor) {
+/*    setup: function (editor) {
         editor.on('keydown', function (e) {
-            if (e.keyCode === 13) { 
-                e.preventDefault(); 
-                
+            if (e.keyCode === 13) {
+                e.preventDefault();
+
                 tinyMCE.execCommand('mceInsertContent', false, "<br/> ");
 
 
-                
+
                 let result = editor.getContent().replace(/\n(?!\n)/g, '');
-                
+
                 result = result.replace(/\n{2,}/g, match => match.slice(1));
                 console.log(result)
                 editor.setContent(result)
@@ -183,7 +184,7 @@ tinymce.init({
             editor.setContent(result)
 
         });
-    }
+    }*/
 
 });
 
