@@ -8,7 +8,8 @@ if (needEditor()) {
 if (window.location.href.includes('/view.php?id=')) {
     loadScript('resources/scripts/quick.menu.js');
 }
-if (window.location.href.includes('bug_update_page.php')) {
+if (window.location.href.includes('bug_update_page.php') || 
+        window.location.href.includes('bug_report_page.php')) {
     loadScript('resources/scripts/date.input.js');
 }
 
