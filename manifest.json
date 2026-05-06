@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MISL Tools",
-  "version": "1.2",
+  "version": "1.3",
   "description": "A Chrome extension for MISL Tools and Shortcuts.",
   "options_ui": {
     "page": "options-ui/options.html",
@@ -33,12 +33,12 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "js": ["settings.js", "content.js"]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["resources/*"],
+      "resources": ["resources/*", "features/*", "helpers/*", "settings.js"],
       "matches": ["<all_urls>"]
     }
   ],
