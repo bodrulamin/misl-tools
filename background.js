@@ -1,3 +1,23 @@
+// Context menu helper functions
+
+/**
+ * Show all Mantis-specific context menu items
+ */
+function showMantisMenus() {
+  chrome.contextMenus.update("gotoLastNote", { visible: true });
+  chrome.contextMenus.update("gotoFirstNote", { visible: true });
+  chrome.contextMenus.update("pasteNoteId", { visible: true });
+}
+
+/**
+ * Hide all Mantis-specific context menu items
+ */
+function hideMantisMenus() {
+  chrome.contextMenus.update("gotoLastNote", { visible: false });
+  chrome.contextMenus.update("gotoFirstNote", { visible: false });
+  chrome.contextMenus.update("pasteNoteId", { visible: false });
+}
+
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
         id: "gotoSelectedMITS",
@@ -33,58 +53,38 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 
+/**
+ * Update context menus when tab is updated
+ * Shows/hides Mantis-specific menu items based on URL
+ */
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (tab.url.includes('/mantis/view.php?id=')) {
-        chrome.contextMenus.update("gotoLastNote", {
-            visible: true
-        });
-        chrome.contextMenus.update("gotoFirstNote", {
-            visible: true
-        });
-        chrome.contextMenus.update("pasteNoteId", {
-            visible: true
-        });
-
+        showMantisMenus();
     } else {
-        chrome.contextMenus.update("gotoLastNote", {
-            visible: false
-        });
-        chrome.contextMenus.update("gotoFirstNote", {
-            visible: false
-        });
-        chrome.contextMenus.update("pasteNoteId", {
-            visible: false
-        });
+        hideMantisMenus();
     }
-
-
 });
+/**
+ * Update context menus when user switches to a different tab
+ * Shows/hides Mantis-specific menu items based on active tab's URL
+ */
 chrome.tabs.onActivated.addListener(activeInfo => {
     chrome.tabs.get(activeInfo.tabId, tab => {
-
         if (tab.url.includes('/mantis/view.php?id=')) {
-            chrome.contextMenus.update("gotoFirstNote", {
-                visible: true
-            });
-            chrome.contextMenus.update("gotoLastNote", {
-                visible: true
-            });
+            showMantisMenus();
         } else {
-            chrome.contextMenus.update("gotoFirstNote", {
-                visible: false
-            });
-            chrome.contextMenus.update("gotoLastNote", {
-                visible: false
-            });
+            hideMantisMenus();
         }
-
-
     });
 });
 
+/**
+ * Handle context menu item clicks
+ * Performs navigation and other actions based on selected menu item
+ */
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "gotoSelectedMITS") {
-
+        // Navigate to selected MITS number
         const mitsNumber = info.selectionText.match(/\d+/)[0];
         const url = `http://192.168.1.126:1234/mantis/view.php?id=${mitsNumber}`;
         chrome.tabs.create({ url: url });
@@ -97,12 +97,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
             args: ['']
         });
     }
-    if (info.menuItemId === "gotoLastNote") {
-        const urlObj = new URL(tab.url);
-        const id = urlObj.searchParams.get('id');
-        const selectedText = encodeURIComponent(info.selectionText);
-        const url = `http://192.168.1.126:1234/mantis/view.php?id=${id}&#addbugnote`;
 
+    if (info.menuItemId === "gotoLastNote") {
         chrome.scripting.executeScript({
             target: { tabId: tab.id },
             func: navigateToLastNote,
@@ -111,14 +107,12 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     }
 
     if (info.menuItemId === "pasteNoteId") {
-        const linkURL = info.linkUrl;
         chrome.scripting.executeScript({
             target: { tabId: tab.id },
             func: pasteText,
-            args: [linkURL]
+            args: [info.linkUrl]
         });
     }
-
 });
 
 
@@ -151,6 +145,10 @@ function pasteText(link) {
 
 }
 
+/**
+ * Handle messages from content scripts
+ * Currently handles text selection for MITS navigation and context menu visibility
+ */
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.type === 'textSelection') {
         var selectedText = message.data;
@@ -171,7 +169,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         }
     }
 
-
     if (message.type === 'oncontextmenu') {
         const url = message.data;
         if (url.includes('/mantis/view.php?id=')) {
@@ -183,11 +180,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 visible: false
             });
         }
-
-
     }
-
-
 });
 
 chrome.action.onClicked.addListener((tab) => {

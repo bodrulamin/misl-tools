@@ -1,4 +1,5 @@
 {
-    "version" : 12,
-    "releaseDate" : "24/11/2024"
+    "version" : 13,
+    "releaseDate" : "06/05/2026",
+    "notes" : "Refactored codebase for better organization and beginner-friendly development"
 }
